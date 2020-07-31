@@ -1,0 +1,133 @@
+version: "2"
+
+services:
+  # data:
+  #   image: busybox
+  #   volumes:
+  #     - ./:/var/www/html
+  #     - ./mysql-data:/var/lib/mysql
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    # depends_on:
+      # - fpm
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - 80:80
+
+  # reverseproxy:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/reverseproxy/Dockerfile
+  #   ports:
+  #     - 80:80
+  #   restart: always
+  #   depends_on:
+  #     - nginx
+
+  mysql:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: hero
+      MYSQL_USER: hero_user
+      MYSQL_PASSWORD: ub2bSD{ndP
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./docker/mysql/commands:/docker-entrypoint-initmysql.d
+    ports:
+      - 3306:3306
+
+  redis:
+    image: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./docker/data/redis:/data
+
+  fpm:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    # depends_on:
+    #   - mysql
+    #   - redis
+    expose:
+      - 9000
+    command: php-fpm
+
+  # websockets:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/websockets/Dockerfile
+  #   depends_on:
+  #     - redis
+  #   links:
+  #     - redis
+  #     - nginx
+  #   command: laravel-echo-server start
+  #   volumes:
+  #     - ./docker/websockets/config:/app
+  #   ports:
+  #     - 6001:6001
+
+  artisan:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    entrypoint:
+      - php
+      - artisan
+
+  # unit:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/php/Dockerfile
+  #   volumes:
+  #     - ./:/var/www/html
+  #   entrypoint:
+  #     - vendor/bin/phpunit
+  #     - --testsuite=unit
+
+  # schedule:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/php/Dockerfile
+  #   volumes_from:
+  #     - data
+  #   command: "/bin/bash -c 'while true; do php /var/www/html/artisan schedule:run --verbose --no-interaction; sleep 60; done'"
+  #   links:
+  #     - mysql
+  #     - redis
+
+  composer:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    entrypoint: composer
+    volumes:
+      - ./docker/php/disable-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    # depends_on:
+      # - fpm
+
+  # queue.default:
+  #   build:
+  #     context: .
+  #     dockerfile: docker/php/Dockerfile
+  #   restart: on-failure
+  #   volumes_from:
+  #     - data
+  #   depends_on:
+  #     - redis
+  #     - mysql
+  #   entrypoint:
+  #     - php
+  #     - artisan
+  #   command: queue:work --tries=3 --queue=default

@@ -1,0 +1,21 @@
+{
+  "You do not have enough credit": "اعتبار کافی نیست.",
+  "This action is unauthorized.": "شما مجاز به انجام این تراکنش نیستید.",
+  "The purchase number :slug delivered to :customer successfully": "مرسوله شماره :slug با موفقیت به :customer تحویل شد.",
+  "The purchase number :slug delivered to your destination successfully": "مرسوله :slug با موفقیت به محل مشخص شده شما تحویل شد.",
+  "paid": "پرداخت شد",
+  "Purchase Blocked": "بلاک شد",
+  "Purchase Canceled": "کنسل شد",
+  "purchase failed": "کامل کنسل شد",
+  "purchase shipped": "خرید ارسال شد",
+  "Your purchase has a interruption, Please try again.": "خرید با مشکل مواجه شد، لطفا دوباره امتحان نمایید.",
+  "Requested media type is not valid.": "فایل درخواستی معتبر نیست.",
+  "Requested model is not valid.": "مدل درخواستی موجود نیست.",
+  "Request processed successfully.": "درخواست با موفقیت انجام شد.",
+  "Internal Server Error please try again": "خطایی داخل سرور رخ داده است لطفا دوباره امتحان نمایید.",
+  "export": "خروجی",
+  "Request sent to the gateway.": "درخواست به بانک ارسال شد",
+  "There is no token set for this shop": "هیچ توکنی برای این فروشگاه ثبت نشده است.",
+  "You can not buy your order": "شما نمیتوانید سفارش خود را خریداری نمایید.",
+  "You have no unpaid purchase.": "شما هیچ خرید پرداخت نشده ای ندارید."
+}

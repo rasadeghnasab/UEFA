@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Validations\Validation;
+
+class DummyClass extends Validation
+{
+    /**
+     * Get the default validation rules that apply to the entity.
+     *
+     * @return array
+     */
+    protected function defaultRules(): array
+    {
+        return [
+            DummyRules
+        ];
+    }
+}
