@@ -32,8 +32,8 @@ services:
     image: mysql:5.7
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     environment:
-      MYSQL_DATABASE: hero
-      MYSQL_USER: hero_user
+      MYSQL_DATABASE: uefa
+      MYSQL_USER: uefa_user
       MYSQL_PASSWORD: ub2bSD{ndP
       MYSQL_ROOT_PASSWORD: root
     volumes:
