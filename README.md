@@ -1,3 +1,3 @@
-# Hero
+# UEFA
 
-A platform to organising martial artists.
+A platform to simulating UEFA competition system.
