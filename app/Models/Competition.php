@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Team;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Interfaces\CompetitionInterface;
 
-class Competition extends Model
+class Competition extends Model implements CompetitionInterface
 {
     protected $fillable = ['name', 'year'];
 
@@ -15,6 +18,14 @@ class Competition extends Model
 
     public function teams()
     {
-        return $this->belongsToMany(App\Models\Team::class, 'tournaments', 'competition_id', 'team_id');
+        return $this->belongsToMany(Team::class, 'tournaments', 'competition_id', 'team_id')->withPivot('pot');
+    }
+
+    /**
+     * Return all the related teams
+     */
+    public function getTeams(): Collection
+    {
+        return $this->teams;
     }
 }

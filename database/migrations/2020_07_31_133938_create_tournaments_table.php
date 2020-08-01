@@ -16,6 +16,8 @@ class CreateTournamentsTable extends Migration
         Schema::create('tournaments', function (Blueprint $table) {
             $table->unsignedTinyInteger('competition_id');
             $table->unsignedTinyInteger('team_id');
+            // Team will be divided to four pots based on their perior performance.
+            $table->integer('pot');
         });
     }
 

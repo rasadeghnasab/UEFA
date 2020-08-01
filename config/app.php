@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'locale' => 'fa',
+    'locale' => 'en',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +106,7 @@ return [
     |
     */
 
-    'faker_locale' => 'fa_IR',
+    'faker_locale' => 'en_US',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidationServiceProvider::class,
-        // App\Providers\FakerServiceProvider::class,
+        App\Providers\FakerServiceProvider::class,
 
     ],
 

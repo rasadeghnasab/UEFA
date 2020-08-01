@@ -11,7 +11,7 @@ use App\Traits\Relations\UserRelationTrait;
 use App\Models\Interfaces\HasDefaultImageInterface;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasDefaultImageInterface
+class User extends Authenticatable
 {
     use UserRelationTrait, HasApiTokens, Notifiable, PassportCustomization;
 

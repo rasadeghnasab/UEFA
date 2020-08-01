@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Team;
 use Faker\Generator as Faker;
 
 /*
@@ -13,12 +14,10 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\Models\User::class, function (Faker $faker) {
+$factory->define(Team::class, function (Faker $faker) {
     return [
-        'first_name' => $faker->name,
-        'last_name' => $faker->lastName,
-        'email' => $faker->unique()->email,
-        'password' => bcrypt('password'), // password
-        'remember_token' => md5($faker->name),
+        'name' => sprintf('Team %d', $faker->numberBetween(1, 30)),
+        'country' => $faker->country,
+        'rank' => $faker->numberBetween(1, 32),
     ];
 });
