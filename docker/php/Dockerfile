@@ -46,5 +46,14 @@ RUN rm /etc/apt/preferences.d/no-debian-php \
   && apt-get clean -y \
   && docker-php-ext-install soap    
 
-RUN usermod -u 1000 www-data
+ADD . /var/www/html
 WORKDIR /var/www/html
+
+RUN apt-get install -y sqlite3
+
+RUN touch /var/www/html/database/database.sqlite
+
+# RUN docker-php-ext-install pdo_sqlite && \
+#     docker-php-ext-enable pdo_sqlite
+
+RUN usermod -u 1000 www-data

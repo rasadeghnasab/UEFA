@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Round extends Model
 {
-    protected $fillables = ['type', 'next_round'];
+    protected $fillable = ['type', 'next_round'];
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competition extends Model
 {
-    protected $fillables = ['name', 'year'];
+    protected $fillable = ['name', 'year'];
 
     public function setYearAttribute($year)
     {

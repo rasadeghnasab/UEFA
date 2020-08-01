@@ -1,32 +1,22 @@
 version: "2"
 
 services:
-  # data:
-  #   image: busybox
-  #   volumes:
-  #     - ./:/var/www/html
-  #     - ./mysql-data:/var/lib/mysql
+  data:
+    image: busybox
+    volumes:
+      - ./:/var/www/html
+      - ./mysql-data:/var/lib/mysql
 
   nginx:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
-    # depends_on:
-      # - fpm
+    depends_on:
+      - fpm
     volumes:
       - ./:/var/www/html
     ports:
       - 80:80
-
-  # reverseproxy:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/reverseproxy/Dockerfile
-  #   ports:
-  #     - 80:80
-  #   restart: always
-  #   depends_on:
-  #     - nginx
 
   mysql:
     image: mysql:5.7
@@ -54,9 +44,9 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./:/var/www/html
-    # depends_on:
-    #   - mysql
-    #   - redis
+    depends_on:
+      - mysql
+      # - redis
     expose:
       - 9000
     command: php-fpm
@@ -113,21 +103,8 @@ services:
       dockerfile: docker/php/Dockerfile
     entrypoint: composer
     volumes:
+      - ./:/var/www/html
       - ./docker/php/disable-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-    # depends_on:
-      # - fpm
-
-  # queue.default:
-  #   build:
-  #     context: .
-  #     dockerfile: docker/php/Dockerfile
-  #   restart: on-failure
-  #   volumes_from:
-  #     - data
-  #   depends_on:
-  #     - redis
-  #     - mysql
-  #   entrypoint:
-  #     - php
-  #     - artisan
-  #   command: queue:work --tries=3 --queue=default
+    depends_on:
+      - fpm
+      - mysql
