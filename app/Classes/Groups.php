@@ -10,13 +10,14 @@ use App\Classes\Interfaces\TeamsToPotsInterface;
 class Groups implements GroupInterface
 {
     private $pots;
+    private $table;
     private $groups_name;
 
     public function __construct(TeamsToPotsInterface $teamsToPots)
     {
         $this->initializeGroups();
-        $this->pots = $teamsToPots->getPots();
-        $this->groups_name = GroupsNameEnum::getValues();
+        $this->pots = $teamsToPots;
+        $this->makeTable();
     }
 
     /**
@@ -32,6 +33,8 @@ class Groups implements GroupInterface
      */
     protected function initializeGroups(): void
     {
+        $this->groups_name = GroupsNameEnum::getValues();
+
         foreach ($this->groups_name as $group_name) {
             $this->table[$group_name] = [];
         }
@@ -58,11 +61,13 @@ class Groups implements GroupInterface
      */
     protected function chooseAGroup(Team $team, int $pot_number): string
     {
-        $group = array_rand($this->availableGroupsForTheTeam($pot_number));
+        $available_groups = $this->availableGroupsForTheTeam($pot_number);
 
-        $this->table[$group] = $team->id;
+        $group_name = $available_groups[array_rand($available_groups)];
 
-        return $group;
+        $this->table[$group_name][] = $team->name;
+
+        return $group_name;
     }
 
     /**

@@ -7,8 +7,6 @@ use Illuminate\Database\Seeder;
 class TournamentTableSeeder extends Seeder
 {
     protected $table = 'teams';
-    protected $signature = 'db:seed --teams={teams}';
-
 
     /**
      * Run the database seeds.

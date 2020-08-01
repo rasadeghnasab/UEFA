@@ -54,11 +54,16 @@ class Pot implements PotInterface
             $this->remainingTeams = $this->teams;
         }
 
-        if ($this->remainingTeams->isEmpty()) {
+        if (count($this->remainingTeams) == 0) {
             return false;
         }
 
-        return $this->remainingTeams->shuffle()->pop();
+        $shuffled = $this->remainingTeams->shuffle();
+        $random_team = $shuffled->pop();
+
+        $this->remainingTeams = $shuffled;
+
+        return $random_team;
     }
 
     /**

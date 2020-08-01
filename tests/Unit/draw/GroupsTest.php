@@ -3,10 +3,9 @@
 namespace Tests\Unit\draw;
 
 use Tests\TestCase;
-use App\Models\Tournament;
+use App\Classes\Groups;
 use App\Models\Competition;
 use App\Classes\TeamsToPots;
-use InvalidArgumentException;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -16,31 +15,21 @@ class GroupsTest extends TestCase
 
     /**
      * @test
+     * 
+     * Check to see if generated table is valid or no?
      */
-    public function MakeFourPotsFromThirtyTwoTeams()
+    public function checkTableValidity()
     {
-        Artisan::call('db:seed --class=TournamentTableSeeder');
+        Artisan::call('db:seed --class=TournamentTableSeederRealData');
+        $expected_pots = collect(config('teams'))->chunk(8);
 
-        $teams_to_pots = new TeamsToPots(Competition::find(1));
+        $pots = new TeamsToPots(Competition::find(1));
+        $table = (new Groups($pots))->getTable();
 
-        $this->assertCount(4, $teams_to_pots->getPots());
-    }
-
-    /**
-     * @test
-     *
-     * @return void
-     */
-    public function throwsExceptionOnInvalidTeamNumber(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Teams number should be equal to %d', 32));
-
-        Artisan::call('db:seed --class=TournamentTableSeeder');
-
-        $competition = Competition::find(1);
-        Tournament::where('competition_id', '=', 1)->where('team_id', '=', 1)->delete();
-
-        new TeamsToPots($competition);
+        foreach ($expected_pots as $pot_num => $expected_pot) {
+            foreach ($table as $group) {
+                $this->assertTrue(in_array($group[$pot_num], $expected_pot->pluck('name')->toArray()));
+            }
+        }
     }
 }

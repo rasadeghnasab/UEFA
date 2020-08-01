@@ -6,5 +6,5 @@ interface TeamsToPotsInterface
 {
     public function getPots(): array;
 
-    public function getTeamsNumbers(): array;
+    public function getTeamsNumbers(): int;
 }
