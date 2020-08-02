@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\GroupsNameEnum;
+use App\Enums\LevelsEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +17,10 @@ class CreateSchedulesTable extends Migration
     {
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->dateTime('due_date');
             $table->unsignedBigInteger('tournament_id');
-            $table->unsignedBigInteger('round_id');
-            $table->string('group');
+            $table->enum('level', LevelsEnum::getValues());
+            $table->enum('group', GroupsNameEnum::getValues());
             $table->unsignedBigInteger('home_id')->nullable();
             $table->unsignedBigInteger('away_id')->nullable();
             $table->unsignedTinyInteger('home_goals')->nullable();

@@ -16,3 +16,4 @@ yarn-error.log
 /docker/data
 auth.json
 *.appimage
+.phpunit.result.cache
