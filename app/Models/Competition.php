@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use App\Models\Team;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -28,6 +29,10 @@ class Competition extends Model implements CompetitionInterface
      */
     public function getTeams(): Collection
     {
+        if ($this->teams->count() != 32) {
+            throw new Exception('Competition must have exactly 32 teams to start a tournament please remove some');
+        }
+
         return $this->teams;
     }
 }
