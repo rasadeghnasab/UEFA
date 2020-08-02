@@ -12,11 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // This should be call one time.
-        // $this->call(ProvinceSeeder::class);
         $this->call([
-            SportSeeder::class,
-            CitySportSeeder::class,
-            BeltSeeder::class,
+            TournamentTableSeederRealData::class,
             UserTableSeeder::class,
         ]);
     }

@@ -15,13 +15,4 @@ class BaseSeeder extends Seeder
         }
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
-
-    public function __call($method, $arguments)
-    {
-        if ($method == 'run' && method_exists($this, 'truncateTable') && !is_null($this->table)) {
-            $this->truncateTable($this->table);
-        }
-
-        return call_user_func_array(array($this, $method), $arguments);
-    }
 }

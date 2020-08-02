@@ -4,7 +4,7 @@ use App\Models\Team;
 use App\Models\Competition;
 use Illuminate\Database\Seeder;
 
-class TournamentTableSeeder extends Seeder
+class TournamentTableSeeder extends BaseSeeder
 {
     protected $table = 'tournaments';
 

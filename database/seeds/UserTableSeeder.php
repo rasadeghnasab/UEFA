@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class UserTableSeeder extends Seeder
+class UserTableSeeder extends BaseSeeder
 {
     protected $table = 'users';
 
@@ -15,16 +14,13 @@ class UserTableSeeder extends Seeder
      */
     public function run(): void
     {
-        factory(User::class)->create();
-        User::destroy(1);
+        $this->truncateTable($this->table);
 
         User::create([
             'first_name' => 'رامین',
             'last_name'  => 'صادق نسب',
-            'mobile'     => '09016473127',
             'email'      => 'rasadeghnasab@gmail.com',
             'password'   => Hash::make('password'),
-            'city_id'    => 19,
         ]);
 
         factory(User::class, 20)->create();

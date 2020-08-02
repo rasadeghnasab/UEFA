@@ -3,7 +3,7 @@
 use App\Models\Team;
 use Illuminate\Database\Seeder;
 
-class TeamTableSeeder extends Seeder
+class TeamTableSeeder extends BaseSeeder
 {
     protected $table = 'teams';
 
@@ -14,8 +14,9 @@ class TeamTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $teams_data = config('teams');
+        $this->truncateTable($this->table);
 
+        $teams_data = config('teams');
         foreach ($teams_data as $team_data) {
             $team = Team::create($team_data);
         }

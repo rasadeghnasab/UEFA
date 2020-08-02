@@ -4,9 +4,12 @@ use App\Models\Team;
 use App\Models\Competition;
 use Illuminate\Database\Seeder;
 
-class TournamentTableSeederRealData extends Seeder
+class TournamentTableSeederRealData extends BaseSeeder
 {
-    protected $table = 'tournaments';
+    protected $table = [
+        'tournaments',
+        'teams'
+    ];
 
     /**
      * Run the database seeds.
@@ -15,6 +18,8 @@ class TournamentTableSeederRealData extends Seeder
      */
     public function run(): void
     {
+        $this->truncateTable($this->table);
+
         $teams = config('teams');
         $competition = factory(Competition::class)->create(['name' => 'UEFA Champions league', 'year' => '2020-21']);
 
