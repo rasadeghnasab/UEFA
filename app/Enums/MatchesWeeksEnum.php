@@ -14,4 +14,8 @@ final class MatchesWeeksEnum extends BaseEnum
     const Eight = 8;
     const Nine = 9;
     const Ten = 10;
+    const Eleven = 11;
+    const Twelve = 12;
+    const Thirteen = 13;
+    const Fourtheen = 14;
 }
