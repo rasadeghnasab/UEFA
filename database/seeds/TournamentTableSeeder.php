@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 
 class TournamentTableSeeder extends Seeder
 {
-    protected $table = 'teams';
+    protected $table = 'tournaments';
 
     /**
      * Run the database seeds.
@@ -15,12 +15,11 @@ class TournamentTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $competition = Competition::create(['name' => 'Competition name ' . (int) rand(0, 1000), 'year' => '2020-21']);
-
         $teams = factory(Team::class, 32)->create();
-        $pot_counter = 1;
-        $pot = 1;
-        foreach ($teams as $index => $team) {
+        $competition = factory(Competition::class)->create();
+
+        $pot_counter = $pot = 1;
+        foreach ($teams as $team) {
             if ($pot_counter > 8) {
                 $pot++;
                 $pot_counter = 1;

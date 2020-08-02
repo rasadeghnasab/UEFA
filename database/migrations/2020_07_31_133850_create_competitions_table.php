@@ -17,6 +17,7 @@ class CreateCompetitionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('year');
+            $table->date('start_date');
             $table->timestamps();
         });
     }

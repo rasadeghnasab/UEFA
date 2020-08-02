@@ -9,7 +9,9 @@ use App\Models\Interfaces\CompetitionInterface;
 
 class Competition extends Model implements CompetitionInterface
 {
-    protected $fillable = ['name', 'year'];
+    protected $fillable = ['name', 'year', 'start_date'];
+
+    protected $dates = ['start_date'];
 
     public function setYearAttribute($year)
     {
