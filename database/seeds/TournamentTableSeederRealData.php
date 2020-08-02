@@ -2,7 +2,6 @@
 
 use App\Models\Team;
 use App\Models\Competition;
-use Illuminate\Database\Seeder;
 
 class TournamentTableSeederRealData extends BaseSeeder
 {
