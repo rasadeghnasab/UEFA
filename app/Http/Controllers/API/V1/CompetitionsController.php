@@ -15,17 +15,7 @@ class CompetitionsController extends Controller
      */
     public function index()
     {
-        return Competition::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Competition::paginate();
     }
 
     /**
@@ -36,51 +26,49 @@ class CompetitionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Competition::create($request->only(['name', 'year', 'start_date']));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Competition  $competition
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Competition $competition)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $competition;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Competition $competition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Competition $competition)
     {
-        //
+        $competition->update($request->only(['name', 'year', 'start_date']));
+        $competition->refresh();
+
+        return $competition;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Competition $competition
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Competition $competition)
     {
-        //
+        $result = $competition->delete();
+
+        $message = $result ? 'Competition remove successfully.' : 'Failed to remove the competition';
+        return response([
+            'status' => $result ? 200 : 400,
+            'message' => __($message),
+        ]);
     }
 }
