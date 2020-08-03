@@ -18,7 +18,7 @@ class CreateTeamsTable extends Migration
             $table->string('name');
             $table->string('country');
             $table->integer('rank')->nullable();
-            $table->integer('description')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

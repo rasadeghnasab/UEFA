@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TeamsController extends Controller
 {
@@ -14,17 +15,7 @@ class TeamsController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Team::all();
     }
 
     /**
@@ -35,51 +26,49 @@ class TeamsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return Team::create($request->only(['name', 'country', 'rank', 'description']));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Team  $team
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Team $team)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $team;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Team $team
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Team $team)
     {
-        //
+        $team->update($request->only(['name', 'year', 'start_date']));
+        $team->refresh();
+
+        return $team;
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Team $team
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Team $team)
     {
-        //
+        $result = $team->delete();
+
+        $message = $result ? 'Team remove successfully.' : 'Failed to remove the team';
+        return response([
+            'status' => $result ? 200 : 400,
+            'message' => __($message),
+        ]);
     }
 }
