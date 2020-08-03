@@ -5,11 +5,11 @@ namespace Tests\Unit\draw;
 use Tests\TestCase;
 use App\Classes\Groups;
 use App\Enums\GroupsNameEnum;
-use App\Classes\MatchesWeeksSchedule;
 use App\Enums\MatchesWeeksEnum;
+use App\Classes\MatchesWeeksSchedule;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class MatchWeeksScheduleTest extends TestCase
+class MatchesWeeksScheduleTest extends TestCase
 {
     use RefreshDatabase;
 

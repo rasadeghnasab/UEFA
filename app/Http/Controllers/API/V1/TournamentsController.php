@@ -35,7 +35,7 @@ class TournamentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $teams = $request->get('teams');
     }
 
     /**

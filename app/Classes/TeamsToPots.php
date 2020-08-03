@@ -2,13 +2,13 @@
 
 namespace App\Classes;
 
-use App\Classes\Interfaces\TeamsToPotsInterface;
+use Countable;
+use Iterator;
 use App\Classes\Pot;
 use App\Models\Team;
 use InvalidArgumentException;
 use App\Models\Interfaces\CompetitionInterface;
-use Countable;
-use Iterator;
+use App\Classes\Interfaces\TeamsToPotsInterface;
 
 class TeamsToPots implements TeamsToPotsInterface, Iterator, Countable
 {
