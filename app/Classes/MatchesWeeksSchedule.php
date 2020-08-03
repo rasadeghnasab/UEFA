@@ -64,7 +64,7 @@ class MatchesWeeksSchedule
         $this->matches_calendar[MatchesWeeksEnum::Thirteen][] = ['home_id' => null, 'away_id' => null, 'group' => GroupsNameEnum::A, 'level' => LevelsEnum::Classfication];
 
         // Final
-        $this->matches_calendar[MatchesWeeksEnum::Fourtheen][] = ['home_id' => null, 'away_id' => null, 'group' => GroupsNameEnum::A, 'level' => LevelsEnum::Final];
+        $this->matches_calendar[MatchesWeeksEnum::Fourteen][] = ['home_id' => null, 'away_id' => null, 'group' => GroupsNameEnum::A, 'level' => LevelsEnum::Final];
     }
 
     private function scheduleGroupsMatchs(array $table): void
