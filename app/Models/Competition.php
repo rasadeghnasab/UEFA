@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Exception;
 use App\Models\Team;
+use App\Models\Tournament;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Interfaces\CompetitionInterface;
@@ -22,6 +23,11 @@ class Competition extends Model implements CompetitionInterface
     public function teams()
     {
         return $this->belongsToMany(Team::class, 'tournaments', 'competition_id', 'team_id')->withPivot('pot');
+    }
+
+    public function tournament()
+    {
+        return $this->hasMany(Tournament::class);
     }
 
     /**

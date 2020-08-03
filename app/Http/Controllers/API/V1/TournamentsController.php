@@ -2,29 +2,22 @@
 
 namespace App\Http\Controllers\API\V1;
 
-use App\Http\Controllers\Controller;
+use App\Models\Competition;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TournamentsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the specified resource.
      *
+     * @param  Competition $competition
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Competition $competition)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        dd($competition->tournament);
+        return $competition->tournament();
     }
 
     /**
@@ -33,41 +26,25 @@ class TournamentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Competition $competition)
     {
-        $teams = $request->get('teams');
-    }
+        foreach ($request->get('data') as $tournament) {
+            $competition->teams()->attach($tournament['team'], [
+                'pot' => $tournament['pot'],
+            ]);
+        }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $competition;
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Competition $competition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Competition $competition)
     {
         //
     }
@@ -75,11 +52,17 @@ class TournamentsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Competition $competition
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Competition $competition)
     {
-        //
+        $result = $competition->tournament()->delete();
+
+        $message = $result ? 'Tournament remove successfully.' : 'Failed to remove the tournament';
+        return response([
+            'status' => $result ? 200 : 400,
+            'message' => __($message),
+        ]);
     }
 }

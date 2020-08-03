@@ -6,6 +6,6 @@
  */
 Route::apiResources([
     'competitions' => 'CompetitionsController',
-    'tournaments'  => 'TournamentsController',
+    'competitions.tournaments'  => 'TournamentsController',
     'teams'        => 'TeamsController',
 ]);
