@@ -9,7 +9,7 @@ use App\Models\Interfaces\TournamentTeamInterface;
 
 class Schedule extends Model implements TournamentTeamInterface
 {
-    protected $fillable = ['tournament_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner', 'due_date'];
+    protected $fillable = ['competition_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner', 'due_date'];
 
     protected $dates = [
         'due_date',
