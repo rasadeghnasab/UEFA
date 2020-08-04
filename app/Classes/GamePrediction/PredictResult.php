@@ -1,20 +1,21 @@
 <?php
 
-namespace Classes\GamePrediction;
+namespace App\Classes\GamePrediction;
 
 use App\Models\Team;
 use App\Models\Schedule;
-use Classes\GamePrediction\Interfaces\FactorsInterface;
+use App\Classes\Interfaces\FactorsInterface;
+use App\Enums\LevelsEnum;
 
 class PredictResult
 {
     protected $factors;
     protected $home_points = 0, $away_points = 0;
 
-    public function __construct(Schedule $schedule, array $factors)
+    public function __construct(Schedule $schedule, array $factors = null)
     {
         $this->schedule = $schedule;
-        $this->factors = $factors;
+        $this->factors = $factors ?? config('prediction_factors');
 
         $this->chanceToWin();
     }
@@ -30,28 +31,53 @@ class PredictResult
         $this->away_points = 0;
 
         foreach ($this->factors as $factor) {
-            $this->home_points += $this->calculateFactorPoints($this->schedule, $this->schedule->home, $factor);
-            $this->away_points += $this->calculateFactorPoints($this->schedule, $this->schedule->away, $factor);
+            $this->home_points += $this->calculateFactorPoints($this->schedule, $this->schedule->home, new $factor);
+            $this->away_points += $this->calculateFactorPoints($this->schedule, $this->schedule->away, new $factor);
         }
     }
 
     private function finalResult(): array
     {
-        // calculate final results based on points each team earned.
-        $home_goals = 1;
-        $away_goals = 2;
-        if (($this->schedule == 'final' && $home_goals === $away_goals) || $this->schedule->levelFinalResult()) {
+        $goals = $this->estimateGoals();
+
+        $winner_id = $goals['home_goals'] > $goals['away_goals'] ? $this->schedule->home_id : $this->schedule->away_id;
+        if ($goals['home_goals'] == $goals['away_goals']) {
+            $winner_id = null;
+        }
+
+        return [
+            'home_goals' => $goals['home_goals'],
+            'away_goals' => $goals['away_goals'],
+            'winner_id' => $winner_id,
+        ];
+    }
+
+    private function estimateGoals()
+    {
+        $difference = abs($this->home_points - $this->away_points);
+        $winner = $loser = 0;
+        if ($difference <= 5) {
+            $winner = rand(0, $difference);
+            $loser = rand(0, $difference);
+        } elseif ($difference <= 10) {
+            $loser = rand(0, 2);
+            $winner = $loser + rand(1, 3);
+        } else {
+            $loser = rand(0, 2);
+            $winner = $loser + rand(2, 4);
+        }
+
+        if (($this->schedule->level == LevelsEnum::Final && $winner === $loser) || $this->schedule->levelFinalResult()) {
             $extra_goals = rand(1, 4);
-            $teams = ['home', 'away'];
+            $teams = ['winner', 'loser'];
             $random_team = $teams[array_rand($teams)];
 
-            // Add some goals to the randomly selected team.
             $$random_team += $extra_goals;
         }
 
         return [
-            'home' => $home_goals,
-            'away' => $away_team,
+            'home_goals' => $this->home_points > $this->away_points ? $winner : $loser,
+            'away_goals' => $this->home_points < $this->away_points ? $winner : $loser,
         ];
     }
 
@@ -61,6 +87,6 @@ class PredictResult
      */
     private function calculateFactorPoints(Schedule $schedule, Team $home_team, FactorsInterface $factor): int
     {
-        return (new $factor)->handle($schedule, $home_team);
+        return $factor->handle($schedule, $home_team);
     }
 }

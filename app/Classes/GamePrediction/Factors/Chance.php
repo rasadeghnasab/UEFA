@@ -1,10 +1,10 @@
 <?php
 
-namespace Classes\GamePrediction\Factors;
+namespace App\Classes\GamePrediction\Factors;
 
 use App\Models\Team;
 use App\Models\Schedule;
-use Classes\GamePrediction\Interfaces\FactorsInterface;
+use App\Classes\Interfaces\FactorsInterface;
 
 /**
  * Chance factor. Can be a random between(-4, +4) for each team

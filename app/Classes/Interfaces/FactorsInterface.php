@@ -1,6 +1,6 @@
 <?php
 
-namespace Classes\GamePrediction\Interfaces;
+namespace App\Classes\Interfaces;
 
 use App\Models\Team;
 use App\Models\Schedule;

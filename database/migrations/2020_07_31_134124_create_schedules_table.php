@@ -23,9 +23,9 @@ class CreateSchedulesTable extends Migration
             $table->enum('group', GroupsNameEnum::getValues());
             $table->unsignedBigInteger('home_id')->nullable();
             $table->unsignedBigInteger('away_id')->nullable();
+            $table->unsignedBigInteger('winner_id')->nullable();
             $table->unsignedTinyInteger('home_goals')->nullable();
             $table->unsignedTinyInteger('away_goals')->nullable();
-            $table->unsignedTinyInteger('winner')->nullable();
             $table->timestamps();
         });
     }

@@ -1,8 +1,8 @@
 <?php
 
 return [
-    \Classes\GamePrediction\Factors\Ranking::class,
-    \Classes\GamePrediction\Factors\Field::class,
-    \Classes\GamePrediction\Factors\Mentality::class,
-    \Classes\GamePrediction\Factors\Chance::class,
+    App\Classes\GamePrediction\Factors\Ranking::class,
+    App\Classes\GamePrediction\Factors\Field::class,
+    App\Classes\GamePrediction\Factors\Mentality::class,
+    App\Classes\GamePrediction\Factors\Chance::class,
 ];

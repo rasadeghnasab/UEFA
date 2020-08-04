@@ -1,9 +1,10 @@
 <?php
 
-namespace Classes\GamePrediction\Factors;
+namespace App\Classes\GamePrediction\Factors;
 
 use App\Models\Team;
-use Classes\GamePrediction\Interfaces\FactorsInterface;
+use App\Models\Schedule;
+use App\Classes\Interfaces\FactorsInterface;
 
 /**
  * How many goals they will need to go to the next level
@@ -14,7 +15,7 @@ use Classes\GamePrediction\Interfaces\FactorsInterface;
  */
 class GoalsNeededToWinTheRound implements FactorsInterface
 {
-    public function handle(Team $home, string $field): int
+    public function handle(Schedule $schedule, Team $home): int
     {
         return 10;
     }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Classes\GamePrediction\Factors;
+namespace App\Classes\GamePrediction\Factors;
 
 use Exception;
 use App\Models\Team;
 use App\Models\Schedule;
 use App\Models\Interfaces\TournamentTeamInterface;
-use Classes\GamePrediction\Interfaces\FactorsInterface;
+use App\Classes\Interfaces\FactorsInterface;
 
 /**
  * Did the team win the last match? +2/-3 (how many matches they've won in a row)
@@ -23,11 +23,17 @@ class Mentality implements FactorsInterface
 
         $matches = $schedule->lastXResults($team, $this->check_last_x_matches);
 
-        $result = 0;
+        $points = 0;
         foreach ($matches as $index => $match) {
-            $result += $match->winner == $team->id ? $this->check_last_x_matches - $index : (-1 * $this->check_last_x_matches) + $index;
+            if (is_null($match->winner_id)) {
+                $opponent_rank = $match->home->rank == $team->rank ? $match->away->rank : $match->home->rank;
+                $points += $opponent_rank > $team->rank ? round($index / 2) : -1 * round($index / 2);
+
+                continue;
+            }
+            $points += $match->winner_id == $team->id ? $this->check_last_x_matches - $index : (-1 * $this->check_last_x_matches) + $index;
         }
 
-        return (int) $result;
+        return (int) $points;
     }
 }

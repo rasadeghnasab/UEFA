@@ -9,7 +9,7 @@ use App\Models\Interfaces\TournamentTeamInterface;
 
 class Schedule extends Model implements TournamentTeamInterface
 {
-    protected $fillable = ['competition_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner', 'due_date'];
+    protected $fillable = ['competition_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner_id', 'due_date'];
 
     protected $dates = [
         'due_date',
@@ -25,9 +25,20 @@ class Schedule extends Model implements TournamentTeamInterface
         return $this->belongsTo(Team::class, 'away_id');
     }
 
+    public function competition()
+    {
+        return $this->belongsTo(Competition::class);
+    }
+
+    public function levelFinalResult()
+    {
+        return false;
+    }
+
     public function lastXResults(Team $team, int $maches_to_look_back = 1): Collection
     {
-        return $this->tournament()
+        return $this
+            ->where('competition_id', $this->competition_id)
             ->where(function ($query) use ($team) {
                 $query->where('home_id', $team->id)->orWhere('away_id', $team->id);
             })

@@ -9,3 +9,5 @@ Route::apiResources([
     'competitions.tournaments'  => 'TournamentsController',
     'teams'        => 'TeamsController',
 ]);
+
+Route::get('match/{schedule}/result', 'HoldingMatchesController@executeAMatch');
