@@ -18,7 +18,7 @@ class CreateSchedulesTable extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->dateTime('due_date');
-            $table->unsignedBigInteger('tournament_id');
+            $table->unsignedBigInteger('competition_id');
             $table->enum('level', LevelsEnum::getValues());
             $table->enum('group', GroupsNameEnum::getValues());
             $table->unsignedBigInteger('home_id')->nullable();

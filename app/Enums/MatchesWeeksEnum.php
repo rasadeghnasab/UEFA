@@ -4,6 +4,7 @@ namespace App\Enums;
 
 final class MatchesWeeksEnum extends BaseEnum
 {
+    const Zero = 0;
     const One = 1;
     const Two = 2;
     const Three = 3;

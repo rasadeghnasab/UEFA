@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use Exception;
+use App\Classes\Groups;
 use App\Models\Competition;
+use App\Classes\TeamsToPots;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Classes\MatchesWeeksSchedule;
+use App\Http\Requests\CreateTournamentRequest;
+use App\Models\Schedule;
 
 class TournamentsController extends Controller
 {
@@ -16,7 +23,6 @@ class TournamentsController extends Controller
      */
     public function index(Competition $competition)
     {
-        dd($competition->tournament);
         return $competition->tournament();
     }
 
@@ -26,15 +32,42 @@ class TournamentsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Competition $competition)
+    public function store(CreateTournamentRequest $request, Competition $competition)
     {
-        foreach ($request->get('data') as $tournament) {
-            $competition->teams()->attach($tournament['team'], [
-                'pot' => $tournament['pot'],
-            ]);
+        $message = 'Tournament created succseefully.';
+        $result = true;
+        try {
+            $schedules = DB::transaction(function () use ($request, $competition) {
+                foreach ($request->get('tournament') as $team) {
+                    $competition->teams()->attach($team['team'], [
+                        'pot' => $team['pot'],
+                    ]);
+                }
+
+                $matches_schedule = (new MatchesWeeksSchedule(new Groups(new TeamsToPots($competition))))->matches($competition);
+
+                $schedules = [];
+                foreach ($matches_schedule as $week_schedule) {
+                    foreach ($week_schedule as $match) {
+                        $schedules[] = (Schedule::create($match))->load(['home', 'away']);
+                    }
+                }
+
+                return $schedules;
+            });
+        } catch (Exception $exception) {
+            $message = $exception->getMessage();
+            $schedules = [];
         }
 
-        return $competition;
+        return response([
+            'message' => $message,
+            'status' => $result ? 200 : 400,
+            'data' => [
+                'competition' => $competition,
+                'schedules' => $schedules
+            ],
+        ]);
     }
 
     /**
@@ -46,7 +79,7 @@ class TournamentsController extends Controller
      */
     public function update(Request $request, Competition $competition)
     {
-        //
+        // Todo: This update method should be implement.
     }
 
     /**

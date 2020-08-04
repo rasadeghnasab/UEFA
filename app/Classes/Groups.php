@@ -65,7 +65,7 @@ class Groups implements GroupInterface
 
         $group_name = $available_groups[array_rand($available_groups)];
 
-        $this->table[$group_name][] = $team->name;
+        $this->table[$group_name][] = $team->id;
 
         return $group_name;
     }

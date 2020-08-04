@@ -9,11 +9,21 @@ use App\Models\Interfaces\TournamentTeamInterface;
 
 class Schedule extends Model implements TournamentTeamInterface
 {
-    protected $fillable = ['tournament_id', 'level', 'group', 'home', 'away', 'home_goals', 'away_goals', 'winner', 'due_date'];
+    protected $fillable = ['tournament_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner', 'due_date'];
 
     protected $dates = [
         'due_date',
     ];
+
+    public function home()
+    {
+        return $this->belongsTo(Team::class, 'home_id');
+    }
+
+    public function away()
+    {
+        return $this->belongsTo(Team::class, 'away_id');
+    }
 
     public function lastXResults(Team $team, int $maches_to_look_back = 1): Collection
     {
