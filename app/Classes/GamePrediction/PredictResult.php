@@ -67,7 +67,7 @@ class PredictResult
             $winner = $loser + rand(2, 4);
         }
 
-        if (($this->schedule->level == LevelsEnum::Final && $winner === $loser) || $this->schedule->levelFinalResult()) {
+        if (($winner === $loser && in_array($this->schedule->level, [LevelsEnum::Final, LevelsEnum::Classfication])) || $this->schedule->levelFinalResult()) {
             $extra_goals = rand(1, 4);
             $teams = ['winner', 'loser'];
             $random_team = $teams[array_rand($teams)];

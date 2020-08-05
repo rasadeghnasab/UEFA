@@ -4,13 +4,13 @@ namespace App\Providers;
 
 
 use App\Classes\PersianNumbers;
+use App\Models\Schedule;
+use App\Observers\ScheduleObserver;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Response as RESPONSE_CODE;
-
-
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('PersianNumbers', function () {
-            return new PersianNumbers();
-        });
     }
 
     /**
@@ -37,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Response::macro('common', [$this, 'common']);
         //
+        Schedule::observe(ScheduleObserver::class);
     }
 
     public function common($value = [])

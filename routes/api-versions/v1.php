@@ -10,4 +10,5 @@ Route::apiResources([
     'teams'        => 'TeamsController',
 ]);
 
-Route::get('match/{schedule}/result', 'HoldingMatchesController@executeAMatch');
+Route::post('predict/{schedule}', 'HoldingMatchesController@executeAMatch');
+Route::post('predict/{competition}/level', 'HoldingMatchesController@executeAllMatchesInALevel');
