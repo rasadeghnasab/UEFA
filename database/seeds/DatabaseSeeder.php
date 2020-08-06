@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         // This should be call one time.
         $this->call([
             TournamentTableSeederRealData::class,
+            ScheduleTableSeederRealData::class,
             UserTableSeeder::class,
         ]);
     }

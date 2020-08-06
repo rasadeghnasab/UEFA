@@ -13,9 +13,7 @@ class Schedule extends Model implements TournamentTeamInterface
 {
     protected $fillable = ['competition_id', 'level', 'group', 'home_id', 'away_id', 'home_goals', 'away_goals', 'winner_id', 'due_date'];
 
-    protected $dates = [
-        'due_date',
-    ];
+    protected $dates = ['due_date',];
 
     protected $levelsOrder = [
         LevelsEnum::Group => LevelsEnum::OneEighth,
