@@ -6,6 +6,7 @@ use App\Models\Competition;
 class TournamentTableSeederRealData extends BaseSeeder
 {
     protected $table = [
+        'competitions',
         'tournaments',
         'teams'
     ];

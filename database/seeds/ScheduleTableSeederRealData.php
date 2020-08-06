@@ -20,7 +20,8 @@ class ScheduleTableSeederRealData extends BaseSeeder
         $this->truncateTable($this->table);
 
         $competition = Competition::find(1);
-        $matches_schedule = (new MatchesWeeksSchedule(new Groups(new TeamsToPots($competition))))->matches($competition);
+        $matches_schedule = (new MatchesWeeksSchedule(new Groups(new TeamsToPots($competition))))
+            ->matches($competition);
 
         foreach ($matches_schedule as $week_schedule) {
             foreach ($week_schedule as $match) {
